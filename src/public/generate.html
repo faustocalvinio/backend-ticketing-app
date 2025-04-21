@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Generador de QRs</title>
+      <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+         }
+
+         form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+         }
+
+         label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333333;
+         }
+
+         input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+         }
+
+         button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+         }
+
+         button:hover {
+            background-color: #0056b3;
+         }
+         select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+         }
+         select:focus {
+            outline: none;
+            border-color: #007bff;
+         }
+         option {
+            padding: 10px;
+         }
+         option:hover {
+            background-color: #f0f0f0;
+         }
+      </style>
+   </head>
+   <body>
+    <h1>Genera tu QR</h1>
+      <form action="/tickets/generate-ticket-pdf" method="POST">
+         <label for="email">Email:</label>
+         <input type="email" id="email" name="email" required />
+         <br />
+         <label for="eventId">Event</label>
+
+         <select  name="eventId" id="eventId" required>
+            <option value="4e40a81f-5143-4a81-898c-bd5479426261">
+               Cumple nano
+            </option>
+            <option value="67467b7d-aa92-4019-90c0-6e620b4da93b">
+               Superclasico
+            </option>
+         </select>
+
+         <br />
+         <button type="submit">Generate Ticket PDF</button>
+      </form>
+      <script>
+        const fetchUrl = "http://localhost:3000/api/tickets/generate-ticket-pdf";	
+         document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function (event) {
+               event.preventDefault(); 
+
+               const email = document.getElementById("email").value;
+               const eventId = document.getElementById("eventId").value;
+
+               fetch(`${fetchUrl}`, {
+                  method: "POST",
+                  headers: {
+                     "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ email, eventId }),
+               })
+                  .then((response) => response.blob()) 
+                  .then((blob) => {
+                     const url = window.URL.createObjectURL(blob);
+
+                     window.open(url);
+
+                     const a = document.createElement('a');
+                     a.href = url;
+                     a.download = `ticket-${eventId}.pdf`;
+                     a.click();
+                  })
+
+                  .catch((error) => {
+                     console.error("Error:", error);
+                     alert(
+                        "An error occurred while generating the ticket PDF."
+                     );
+                  });
+            });
+         });
+      </script>
+   </body>
+</html>

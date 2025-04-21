@@ -1,13 +1,11 @@
 import express from "express";
 import {
-   genTicketGetController,
-   genTicketPostController,
+   genTicketController,
    validateController,
 } from "../controllers/ticket.controller";
 
 export const ticketRouter = express.Router();
 
-ticketRouter.get("/generate-ticket-pdf", genTicketGetController);
-ticketRouter.post("/generate-ticket-pdf", genTicketPostController);
+ticketRouter.post("/generate-ticket-pdf", genTicketController);
 
 ticketRouter.get("/validate/:id", validateController);
