@@ -3,7 +3,7 @@ import { dbConnection } from "./database/dbConn";
 import { ticketRouter } from "./routes/ticket.routes";
 import { eventRouter } from "./routes/event.routes";
 import cors from "cors";
-
+import path from "path";
 dbConnection();
 
 const app = express();
@@ -15,11 +15,20 @@ app.use("/api/tickets", ticketRouter);
 app.use("/api/events", eventRouter);
 
 app.get("/client/validate", (req, res) => {
-   res.sendFile(__dirname + "/public/validate.html");
+
+   res.sendFile(path.join(__dirname, "../public/validate.html"));
 });
 
+app.get("/client/events", (req, res) => {
+   
+      res.sendFile(path.join(__dirname, "../public/events.html"));
+})
+
+
 app.get("/client/generate", (req, res) => {
-   res.sendFile(__dirname + "/public/generate.html");
+   
+   res.sendFile(path.join(__dirname, "../public/generate.html"));
+   
 });
 
 app.listen(3000, () => {
