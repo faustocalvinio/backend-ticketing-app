@@ -4,52 +4,56 @@
       <meta charset="UTF-8" />
       <title>Escáner QR</title>
       <script src="https://unpkg.com/html5-qrcode"></script>
-      <link rel="shortcut icon" href="../public/favicon.ico" type="image/x-icon">
+      <link
+         rel="shortcut icon"
+         href="../public/favicon.ico"
+         type="image/x-icon"
+      />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="description" content="Escáner de QR para validar tickets" />
 
       <style>
-        body {
-          font-family: Arial, sans-serif;
-          text-align: center;
-          background-color: #f4f4f9;
-          margin: 0;
-          padding: 0;
-        }
+         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+         }
 
-        h1 {
-          color: #333;
-          margin-top: 20px;
-        }
+         h1 {
+            color: #333;
+            margin-top: 20px;
+         }
 
-        #reader {
-          margin: 20px auto;
-          border: 2px solid #ccc;
-          border-radius: 10px;
-          background-color: #fff;
-          padding: 10px;
-        }
+         #reader {
+            margin: 20px auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 10px;
+         }
 
-        #result {
-          margin-top: 20px;
-          font-size: 18px;
-          color: #555;
-        }
+         #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+         }
 
-        button {
-          margin-top: 20px;
-          padding: 10px 20px;
-          font-size: 16px;
-          color: #fff;
-          background-color: #007bff;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
+         button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+         }
 
-        button:hover {
-          background-color: #0056b3;
-        }
+         button:hover {
+            background-color: #0056b3;
+         }
       </style>
    </head>
    <body>
@@ -73,7 +77,7 @@
                   fetch(`${baseURL}${qrCodeMessage}`)
                      .then((res) => res.json())
                      .then((data) => {
-                        resultElem.innerHTML = `<strong>${data.message}</strong><br /><p>Evento: ${data.eventName}</p>`;
+                        resultElem.innerHTML = `<strong>${data.message}</strong><br /><p>Evento: ${data.eventName}</p><p>Email: ${data.email}</p>`;
                      })
                      .catch((err) => {
                         resultElem.innerHTML = `<strong>Error al validar el ticket</strong>`;

@@ -111,7 +111,29 @@
                             console.error('Failed to copy ID:', err);
                         });
                     };
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete Event';
+                    deleteButton.style.backgroundColor = 'red';
+                    deleteButton.style.color = 'white';
+                    deleteButton.style.border = 'none';
+                    deleteButton.style.padding = '5px 10px';
+                    deleteButton.style.cursor = 'pointer';
+                    deleteButton.onclick = async () => {
+                        try {
+                            const deleteResponse = await fetch(`http://localhost:3000/api/events/${event.id}`, {
+                                method: 'DELETE'
+                            });
 
+                            if (!deleteResponse.ok) {
+                                throw new Error('Failed to delete event');
+                            }
+
+                            eventDiv.remove();
+                        } catch (error) {
+                            console.error('Error deleting event:', error);
+                        }
+                    };
+                    eventDiv.appendChild(deleteButton);
                     eventDiv.appendChild(title);
                     eventDiv.appendChild(description);
                     eventDiv.appendChild(copyButton);
