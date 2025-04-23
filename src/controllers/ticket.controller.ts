@@ -1,8 +1,8 @@
 import { Ticket } from "../models/Ticket";
 import { v4 } from "uuid";
-import QRCode from "qrcode";
-import PDFDocument from "pdfkit";
 import { getEventName } from "../helpers/eventName";
+import { qrBuilder } from "../helpers/qrBuilder";
+import { updateSeats } from "../helpers/updateSeats";
 
 export const validateController = async (req: any, res: any) => {
    const { id } = req.params;
@@ -13,66 +13,67 @@ export const validateController = async (req: any, res: any) => {
    const eventName = await getEventName(ticket.eventId);
 
    if (ticket.used) {
-      return res
-         .status(400)
-         .json({ message: "Ticket already used", eventName });
+      return res.status(400).json({
+         message: "Ticket already used",
+         eventName,
+         email: ticket.email,
+      });
    }
 
-   
    ticket.used = true;
    await ticket.save();
 
    return res.status(200).json({
       message: "Ticket is valid and now marked as used",
       ticket,
+      email: ticket.email,
       eventName,
    });
 };
 
 export const genTicketController = async (req: any, res: any) => {
-   const { email, eventId } = req.body;
+   const { email, eventId, area } = req.body;
    const id = v4();
-   const eventName = await getEventName(eventId); 
-
-   const ticket = new Ticket({ id, email, eventId });
+   const eventName = await getEventName(eventId);
+   // const area = req.body.area || "General";
+   const { count } = await updateSeats(eventId);
+   const seat = `${count}A`;
+   const ticket = new Ticket({ id, email, eventId, area, seat });
    await ticket.save();
-
-   const qrBuffer = await QRCode.toBuffer(id, { width: 300 });
-
-   const doc = new PDFDocument({
-      size: "A4",
-      margin: 50,
-   });
 
    res.setHeader("Content-Type", "application/pdf");
    res.setHeader(
       "Content-Disposition",
       `attachment; filename=ticket-${id}.pdf`
    );
+   const { doc } = await qrBuilder(id, email, eventName, area, seat);
 
    doc.pipe(res);
+};
 
-   doc.fontSize(24).text(`Entrada para el evento ${eventName}`, {
-      align: "center",
+export const getAllTicketsController = async (req: any, res: any) => {
+   const tickets = await Ticket.find({});
+   if (!tickets) {
+      return res.status(404).json({ message: "No tickets found" });
+   }
+   return res.status(200).json({
+      message: `${tickets.length} Tickets found`,
+      tickets,
    });
+};
 
-   doc.moveDown();
-
-   doc.fontSize(16).text(`ID del ticket: ${id}`, { align: "center" });
-   doc.text(`Email del asistente: ${email}`, {
-      align: "center",
-      underline: true,
+export const getTicketByIdController = async (req: any, res: any) => {
+   const { id } = req.params;
+   const ticket = await Ticket.findOne({
+      id,
    });
-
-   doc.moveDown(2);
-
-   const qrX = (doc.page.width - 300) / 2; // Centrar QR
-   doc.image(qrBuffer, qrX, doc.y, { width: 300, height: 300 });
-
-   doc.moveDown(20);
-   doc.fontSize(14).text("Por favor presenta este QR al ingresar al evento.", {
-      align: "center",
+   if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+   }
+   const eventName = await getEventName(ticket.eventId);
+   return res.status(200).json({
+      message: "Ticket found",
+      ticket,
+      eventName,
    });
-
-   doc.end(); 
 };
