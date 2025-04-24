@@ -38,7 +38,7 @@
             const eventName = document.getElementById('event-name').value;
 
             try {
-                const response = await fetch('http://localhost:3000/api/events', {
+                const response = await fetch('https://ticketing-app-bu5y.onrender.com/api/events', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -86,7 +86,7 @@
         });
         async function fetchEvents() {
             try {
-                const response = await fetch('http://localhost:3000/api/events');
+                const response = await fetch('https://ticketing-app-bu5y.onrender.com/api/events');
                 const events = await response.json();
 
                 const container = document.getElementById('events-container');
@@ -120,7 +120,7 @@
                     deleteButton.style.cursor = 'pointer';
                     deleteButton.onclick = async () => {
                         try {
-                            const deleteResponse = await fetch(`http://localhost:3000/api/events/${event.id}`, {
+                            const deleteResponse = await fetch(`https://ticketing-app-bu5y.onrender.com/api/events/${event.id}`, {
                                 method: 'DELETE'
                             });
 

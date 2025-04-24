@@ -6,7 +6,7 @@
       "dev": "tsnd --respawn --clear src/app.ts",
       "build": "rimraf ./dist && tsc && npm run copy-public",
       "start": "npm run build && node --env-file=.env  dist/app.js",
-      "copy-public": "xcopy public dist\\public /E /I /Y",
+      "copy-public": "cp -r public/ dist/public/",
       "seed": "npx ts-node src/helpers/seedEvents.ts"
    },
    "keywords": [],

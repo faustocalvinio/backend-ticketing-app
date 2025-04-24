@@ -129,7 +129,7 @@
             document.addEventListener("DOMContentLoaded", function () {
                const eventSelect = document.getElementById("eventId");
 
-               fetch("http://localhost:3000/api/events")
+               fetch("https://ticketing-app-bu5y.onrender.com/api/events")
                  .then((response) => {
                    if (!response.ok) {
                      throw new Error("Network response was not ok");
@@ -163,7 +163,7 @@
          <button type="submit">Generate Ticket PDF</button>
       </form>
       <script>
-        const fetchUrl = "http://localhost:3000/api/tickets/generate-ticket-pdf";	
+        const fetchUrl = "https://ticketing-app-bu5y.onrender.com/api/tickets/generate-ticket-pdf";	
          document.addEventListener("DOMContentLoaded", function () {
             const form = document.querySelector("form");
             form.addEventListener("submit", function (event) {
