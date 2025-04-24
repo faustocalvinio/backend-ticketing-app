@@ -46,6 +46,5 @@ export const qrBuilder = async (
    });
 
    doc.end();
-
    return { doc };
 };

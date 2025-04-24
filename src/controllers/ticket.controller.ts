@@ -3,6 +3,9 @@ import { v4 } from "uuid";
 import { getEventName } from "../helpers/eventName";
 import { qrBuilder } from "../helpers/qrBuilder";
 import { updateSeats } from "../helpers/updateSeats";
+import { send } from "process";
+import { transporter } from "../helpers/emailTransponder";
+import { createReadStream } from "fs";
 
 export const validateController = async (req: any, res: any) => {
    const { id } = req.params;
@@ -32,7 +35,7 @@ export const validateController = async (req: any, res: any) => {
 };
 
 export const genTicketController = async (req: any, res: any) => {
-   const { email, eventId, area } = req.body;
+   const { email, eventId, area, sendEmail } = req.body;
    const id = v4();
    const eventName = await getEventName(eventId);
    // const area = req.body.area || "General";
@@ -49,6 +52,29 @@ export const genTicketController = async (req: any, res: any) => {
    const { doc } = await qrBuilder(id, email, eventName, area, seat);
 
    doc.pipe(res);
+
+   const pdfBuffers: Buffer[] = [];
+   doc.on("data", (chunk) => pdfBuffers.push(chunk));
+   doc.on("end", async () => {
+      const pdfBuffer = Buffer.concat(pdfBuffers);
+
+      if (sendEmail) {
+         await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: `Your Ticket for ${eventName}`,
+            text: `Your ticket for ${eventName} is attached. Your seat is ${seat}.`,
+            attachments: [
+               {
+                  filename: `ticket-${id}.pdf`,
+                  content: pdfBuffer,
+                  contentType: "application/pdf",
+               },
+            ],
+         });
+      }
+   });
+
 };
 
 export const getAllTicketsController = async (req: any, res: any) => {

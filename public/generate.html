@@ -81,6 +81,38 @@
          option:hover {
             background-color: #f0f0f0;
          }
+          input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            background-color: #ffffff;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+          }
+
+          input[type="checkbox"]:checked {
+            background-color: #007bff;
+            border-color: #0056b3;
+          }
+
+          input[type="checkbox"]:checked::after {
+            content: "✔";
+            color: #ffffff;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 3px #007bff;
+          }
       </style>
    </head>
    <body>
@@ -126,6 +158,8 @@
             <option value="VIP">VIP</option>
             <option value="UltraVIP">UltraVIP</option>
          </select>
+         <label for="sendEmail">Send Email</label>
+         <input type="checkbox" name="sendEmail" id="sendEmail" checked />
          <button type="submit">Generate Ticket PDF</button>
       </form>
       <script>
@@ -138,12 +172,13 @@
                const email = document.getElementById("email").value;
                const eventId = document.getElementById("eventId").value;
                const area = document.getElementById("area").value;
+               const sendEmail = document.getElementById("sendEmail").checked;   
                fetch(`${fetchUrl}`, {
                   method: "POST",
                   headers: {
                      "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({ email, eventId, area }),
+                  body: JSON.stringify({ email, eventId, area, sendEmail }),
                })
                   .then((response) => response.blob()) 
                   .then((blob) => {
