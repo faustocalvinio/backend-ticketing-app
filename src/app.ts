@@ -17,20 +17,6 @@ app.use(express.json());
 app.use("/api/tickets", ticketRouter);
 app.use("/api/events", eventRouter);
 
-app.get("/client/validate", (req, res) => {
-   res.sendFile(path.join(__dirname, "../public/validate.html"));
-});
-
-app.get("/client/events", (req, res) => {
-   res.sendFile(path.join(__dirname, "../public/events.html"));
-});
-
-app.get("/client/generate", (req, res) => {
-   res.sendFile(path.join(__dirname, "../public/generate.html"));
-});
-app.get("/", (req, res) => {
-   res.sendFile(path.join(__dirname, "../public/generate.html"));
-});
 app.listen(process.env.PORT || 3000, () => {
    console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
