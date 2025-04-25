@@ -54,11 +54,45 @@
          button:hover {
             background-color: #0056b3;
          }
+         @media (max-width: 768px) {
+            #reader {
+               width: 90%;
+            }
+
+            h1 {
+               font-size: 24px;
+            }
+
+            button {
+               width: 90%;
+               font-size: 14px;
+               padding: 8px 16px;
+            }
+
+            #result {
+               font-size: 16px;
+            }
+         }
+
+         @media (max-width: 480px) {
+            h1 {
+               font-size: 20px;
+            }
+
+            button {
+               font-size: 12px;
+               padding: 6px 12px;
+            }
+
+            #result {
+               font-size: 14px;
+            }
+         }
       </style>
    </head>
    <body>
       <h1>Escanea tu ticket</h1>
-      <div id="reader" style="width: 400px"></div>
+      <div id="reader" style="width: 250px"></div>
       <div id="result"></div>
       <button onclick="location.reload()">Escanear otro</button>
 
@@ -92,7 +126,7 @@
             { facingMode: "environment" },
             {
                fps: 10,
-               qrbox: { width: 250, height: 250 },
+               qrbox: { width: 100, height:100 },
             },
             onScanSuccess
          );
