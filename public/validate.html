@@ -93,9 +93,22 @@
    <body>
       <h1>Escanea tu ticket</h1>
       <div id="reader" style="width: 250px"></div>
+      <div id="validation-icon" style="margin-top: 20px; font-size: 50px;"></div>
       <div id="result"></div>
       <button onclick="location.reload()">Escanear otro</button>
+      <script>
+         function displayValidationIcon(isValid) {
+            const validationIcon = document.getElementById("validation-icon");
+            if (isValid) {
+               validationIcon.innerHTML = "✅"; // Green tick for success
+               validationIcon.style.color = "green";
+            } else {
+               validationIcon.innerHTML = "❌"; // Red cross for failure
+               validationIcon.style.color = "red";
+            }
+         }
 
+      </script>
       <script>
          const resultElem = document.getElementById("result");
          const html5QrCode = new Html5Qrcode("reader");
@@ -111,6 +124,12 @@
                   fetch(`${baseURL}${qrCodeMessage}`)
                      .then((res) => res.json())
                      .then((data) => {
+                        // displayValidationIcon(data.isValid);
+                        if (data.message === "Ticket is valid and now marked as used") {
+                           displayValidationIcon(true);
+                        } else {
+                           displayValidationIcon(false);
+                        }
                         resultElem.innerHTML = `<strong>${data.message}</strong><br /><p>Evento: ${data.eventName}</p><p>Email: ${data.email}</p>`;
                      })
                      .catch((err) => {
