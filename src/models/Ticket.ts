@@ -11,6 +11,7 @@ const TicketSchema = new mongoose.Schema({
    },
    seat: String,
    eventId: { type: String, required: true },
+   isPaid: { type: Boolean, default: false },
 });
 
 export const Ticket = mongoose.model("Ticket", TicketSchema);

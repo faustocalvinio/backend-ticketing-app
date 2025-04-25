@@ -6,4 +6,5 @@ export interface EventSeed {
    date?: Date;
    location?: string;
    organizer?: string;
+   price: number;
 }

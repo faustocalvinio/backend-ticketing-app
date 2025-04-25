@@ -7,22 +7,27 @@ const seedEventsData: EventSeed[] = [
    {
       name: "Concierto de Rock Nacional",
       availableSeats: 100,
+      price: 50,
    },
    {
       name: "Teatro Musical",
       availableSeats: 50,
+      price: 40,
    },
    {
       name: "Conferencia de Tecnología",
       availableSeats: 200,
+      price: 30,
    },
    {
       name: "Exposición de Arte",
       availableSeats: 75,
+      price: 20,
    },
    {
       name: "Festival de Comida",
       availableSeats: 150,
+      price: 25, 
    },
 ];
 

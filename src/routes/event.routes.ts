@@ -9,6 +9,8 @@ eventRouter.post("/", async (req: any, res: any) => {
 
    const newEvent = await Event.create({
       name,
+      availableSeats: 100,
+      price: 145,
    });
    res.status(201).send(newEvent);
 });

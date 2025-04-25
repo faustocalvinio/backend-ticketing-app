@@ -59,22 +59,22 @@ export const genTicketController = async (req: any, res: any) => {
       const pdfBuffer = Buffer.concat(pdfBuffers);
 
       if (sendEmail) {
-         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: `Your Ticket for ${eventName}`,
-            text: `Your ticket for ${eventName} is attached. Your seat is ${seat}.`,
-            attachments: [
-               {
-                  filename: `ticket-${id}.pdf`,
-                  content: pdfBuffer,
-                  contentType: "application/pdf",
-               },
-            ],
-         });
+         console.log("Sending email to", email);
+         // await transporter.sendMail({
+         //    from: process.env.EMAIL_USER,
+         //    to: email,
+         //    subject: `Your Ticket for ${eventName}`,
+         //    text: `Your ticket for ${eventName} is attached. Your seat is ${seat}.`,
+         //    attachments: [
+         //       {
+         //          filename: `ticket-${id}.pdf`,
+         //          content: pdfBuffer,
+         //          contentType: "application/pdf",
+         //       },
+         //    ],
+         // });
       }
    });
-
 };
 
 export const getAllTicketsController = async (req: any, res: any) => {
@@ -102,4 +102,24 @@ export const getTicketByIdController = async (req: any, res: any) => {
       ticket,
       eventName,
    });
+};
+
+export const payTicketController = async (req: any, res: any) => {
+   const { id } = req.params;
+   const ticket = await Ticket.findOne({
+      id,
+   });
+   if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+   }
+   const eventName = await getEventName(ticket.eventId);
+   if (ticket.isPaid) {
+      return res.status(400).json({
+         message: "Ticket already paid",
+         eventName,
+         email: ticket.email,
+      });
+   }
+   ticket.isPaid = true;
+   await ticket.save();
 };
