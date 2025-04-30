@@ -23,7 +23,18 @@ export const validateController = async (req: any, res: any) => {
       });
    }
 
+   if (!ticket.isPaid) {
+      return res.status(400).json({
+         message: "Ticket not paid",
+         eventName,
+         email: ticket.email,
+      });
+   }
+
+   // if (ticket.isPaid) {
    ticket.used = true;
+   // }
+
    await ticket.save();
 
    return res.status(200).json({
@@ -34,6 +45,24 @@ export const validateController = async (req: any, res: any) => {
    });
 };
 
+export const generateTicketWithoutSendingController = async (
+   req: any,
+   res: any
+) => {
+   const { email, eventId, area } = req.body;
+   // const id = v4();
+   const eventName = await getEventName(eventId);
+   // const area = req.body.area || "General";
+   const { count } = await updateSeats(eventId);
+   const seat = `${count}A`;
+   const ticket = new Ticket({ email, eventId, area, seat });
+   await ticket.save();
+
+   res.send({
+      message: `Ticket for ${eventName} generated successfully`,
+      ticketId: ticket.id,
+   });
+};
 export const genTicketController = async (req: any, res: any) => {
    const { email, eventId, area, sendEmail } = req.body;
    const id = v4();

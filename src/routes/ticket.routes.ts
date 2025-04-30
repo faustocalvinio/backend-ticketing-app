@@ -1,5 +1,6 @@
 import express from "express";
 import {
+   generateTicketWithoutSendingController,
    genTicketController,
    getAllTicketsController,
    getTicketByIdController,
@@ -12,3 +13,7 @@ ticketRouter.post("/generate-ticket-pdf", genTicketController);
 ticketRouter.get("/get-all-tickets", getAllTicketsController);
 ticketRouter.get("/validate/:id", validateController);
 ticketRouter.get("/id/:id", getTicketByIdController);
+ticketRouter.post(
+   "/generate-without-sending",
+   generateTicketWithoutSendingController
+);
