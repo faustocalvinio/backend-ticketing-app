@@ -20,7 +20,7 @@ app.use("/api/events", eventRouter);
 app.use("/api/payments", paymentRouter);
 app.get("/client/validate", (req, res) => {
    res.sendFile(path.join(__dirname, "../public/validate.html"));
-})
+});
 app.listen(process.env.PORT || 3000, () => {
    console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });

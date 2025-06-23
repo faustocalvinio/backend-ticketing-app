@@ -41,7 +41,7 @@ paymentRouter.post("/paypal/checkout/:ticketId", async (req: any, res: any) => {
 
       // if (sendEmail) {
       console.log("Sending email to", email);
-      
+
       await transporter.sendMail({
          from: process.env.EMAIL_USER,
          to: email,
@@ -55,7 +55,6 @@ paymentRouter.post("/paypal/checkout/:ticketId", async (req: any, res: any) => {
             },
          ],
       });
-      
    });
 
    // res.send({ message: "Payment processed successfully", ticketToChange });

@@ -7,7 +7,7 @@ import { send } from "process";
 import { transporter } from "../helpers/emailTransponder";
 import { createReadStream } from "fs";
 
-export const validateController = async (req: any, res: any) => {
+export const validateTicketController = async (req: any, res: any) => {
    const { id } = req.params;
    const ticket = await Ticket.findOne({ id });
    if (!ticket) {
@@ -31,9 +31,7 @@ export const validateController = async (req: any, res: any) => {
       });
    }
 
-   // if (ticket.isPaid) {
    ticket.used = true;
-   // }
 
    await ticket.save();
 
@@ -45,14 +43,12 @@ export const validateController = async (req: any, res: any) => {
    });
 };
 
-export const generateTicketWithoutSendingController = async (
+export const generateTicketWithoutSendingPDFController = async (
    req: any,
    res: any
 ) => {
    const { email, eventId, area } = req.body;
-   // const id = v4();
    const eventName = await getEventName(eventId);
-   // const area = req.body.area || "General";
    const { count } = await updateSeats(eventId);
    const seat = `${count}A`;
    const ticket = new Ticket({ email, eventId, area, seat });
@@ -63,11 +59,11 @@ export const generateTicketWithoutSendingController = async (
       ticketId: ticket.id,
    });
 };
+
 export const genTicketController = async (req: any, res: any) => {
    const { email, eventId, area, sendEmail } = req.body;
    const id = v4();
    const eventName = await getEventName(eventId);
-   // const area = req.body.area || "General";
    const { count } = await updateSeats(eventId);
    const seat = `${count}A`;
    const ticket = new Ticket({ id, email, eventId, area, seat });

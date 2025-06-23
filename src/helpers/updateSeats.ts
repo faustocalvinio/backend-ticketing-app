@@ -6,7 +6,7 @@ export const updateSeats = async (eventId: string) => {
    });
    if (!event) {
       return {
-         message: "Evento no encontrado",
+         message: "Event not found",
       };
    }
    const assignedSeat = event.availableSeats;
@@ -15,6 +15,6 @@ export const updateSeats = async (eventId: string) => {
 
    return {
       count: assignedSeat,
-      message: `Asiento ${event.availableSeats} reservado`,
+      message: `Seat ${event.availableSeats} reserved`,
    };
 };

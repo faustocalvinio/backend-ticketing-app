@@ -5,27 +5,27 @@ import dotenv from "dotenv";
 dotenv.config();
 const seedEventsData: EventSeed[] = [
    {
-      name: "Concierto de Rock Nacional",
+      name: "National Rock Concert",
       availableSeats: 100,
       price: 50,
    },
    {
-      name: "Teatro Musical",
+      name: "Musical Theater",
       availableSeats: 50,
       price: 40,
    },
    {
-      name: "Conferencia de Tecnología",
+      name: "Technology Conference",
       availableSeats: 200,
       price: 30,
    },
    {
-      name: "Exposición de Arte",
+      name: "Art Exhibition",
       availableSeats: 75,
       price: 20,
    },
    {
-      name: "Festival de Comida",
+      name: "Food Festival",
       availableSeats: 150,
       price: 25, 
    },

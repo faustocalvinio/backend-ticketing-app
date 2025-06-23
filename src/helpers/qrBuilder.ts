@@ -24,14 +24,14 @@ export const qrBuilder = async (
    doc.fontSize(18)
       .fillColor("#4B0082")
       .font("Helvetica-Bold")
-      .text(`Área: ${area} - Asiento ${seat}`, { align: "center" });
+      .text(`Area: ${area} - Seat ${seat}`, { align: "center" });
    doc.moveDown();
    doc.fontSize(16)
       .fillColor("#000000")
       .font("Helvetica")
-      .text(`ID del ticket: ${id}`, { align: "center" });
+      .text(`Ticket ID : ${id}`, { align: "center" });
    doc.moveDown();
-   doc.text(`Email del asistente: ${email}`, {
+   doc.text(`Assistant email: ${email}`, {
       align: "center",
    });
 
@@ -41,7 +41,7 @@ export const qrBuilder = async (
    doc.image(qrBuffer, qrX, doc.y, { width: 300, height: 300 });
 
    doc.moveDown(20);
-   doc.fontSize(14).text("Por favor presenta este QR al ingresar al evento.", {
+   doc.fontSize(14).text("Please present this QR code when entering the event.", {
       align: "center",
    });
 

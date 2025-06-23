@@ -16,11 +16,11 @@ export const deleteEvent = async (eventId: string) => {
    const event = await Event.findOne({ id: eventId });
    if (!event) {
       return {
-         message: "Evento no encontrado",
+         message: "Event not found",
       };
    }
    await Event.deleteOne({ id: eventId });
    return {
-      message: `Evento ${event.name} eliminado`,
+      message: `Event ${event.name} deleted`,
    };
 };

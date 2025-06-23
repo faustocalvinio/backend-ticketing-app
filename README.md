@@ -50,7 +50,7 @@ A backend API for managing events and ticketing, featuring PDF ticket generation
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/ticketing-app.git
-cd ticketing-app
+git clone https://github.com/faustocalvinio/backend-ticketing-app.git
+cd backend-ticketing-app
 npm install
 ```
