@@ -86,19 +86,19 @@ export const genTicketController = async (req: any, res: any) => {
 
     if (sendEmail) {
       console.log("Sending email to", email);
-      // await transporter.sendMail({
-      //    from: process.env.EMAIL_USER,
-      //    to: email,
-      //    subject: `Your Ticket for ${eventName}`,
-      //    text: `Your ticket for ${eventName} is attached. Your seat is ${seat}.`,
-      //    attachments: [
-      //       {
-      //          filename: `ticket-${id}.pdf`,
-      //          content: pdfBuffer,
-      //          contentType: "application/pdf",
-      //       },
-      //    ],
-      // });
+      await transporter.sendMail({
+         from: process.env.EMAIL_USER,
+         to: email,
+         subject: `Your Ticket for ${eventName}`,
+         text: `Your ticket for ${eventName} is attached. Your seat is ${seat}.`,
+         attachments: [
+            {
+               filename: `ticket-${id}.pdf`,
+               content: pdfBuffer,
+               contentType: "application/pdf",
+            },
+         ],
+      });
     }
   });
 };
