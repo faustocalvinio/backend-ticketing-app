@@ -1,5 +1,5 @@
 import { dbConnection } from "../database/dbConn";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import { Ticket } from "../models/Ticket";
 dotenv.config();
 
