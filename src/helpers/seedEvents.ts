@@ -1,7 +1,7 @@
 import { dbConnection } from "../database/dbConn";
 import { EventSeed } from "../interfaces/event.interface";
 import { Event } from "../models/Event";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 dotenv.config();
 const seedEventsData: EventSeed[] = [
    {

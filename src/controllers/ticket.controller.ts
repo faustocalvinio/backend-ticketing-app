@@ -80,7 +80,7 @@ export const genTicketController = async (req: any, res: any) => {
   doc.pipe(res);
 
   const pdfBuffers: Buffer[] = [];
-  doc.on("data", (chunk) => pdfBuffers.push(chunk));
+  doc.on("data", (chunk: any) => pdfBuffers.push(chunk));
   doc.on("end", async () => {
     const pdfBuffer = Buffer.concat(pdfBuffers);
 

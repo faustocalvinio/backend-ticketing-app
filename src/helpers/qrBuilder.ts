@@ -1,4 +1,4 @@
-import QRCode from "qrcode";
+import * as QRCode from "qrcode";
 import PDFDocument from "pdfkit";
 
 export const qrBuilder = async (
